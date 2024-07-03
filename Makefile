@@ -15,4 +15,10 @@ build/test.bin: build/test.elf
 	arm-none-eabi-objcopy -O binary $^ $@
 
 vm: build/test.bin
-	qemu-system-arm -M versatilepb -m 128M -nographic -kernel build/test.bin
+	qemu-system-arm -M versatilepb -m 128M \
+		-audio none \
+		-nographic \
+		-kernel build/test.bin \
+		-serial mon:stdio \
+		-chardev pty,id=char0 \
+  	-serial chardev:char0
